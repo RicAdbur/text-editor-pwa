@@ -5738,7 +5738,8 @@ const {
   warmStrategyCache
 } = __webpack_require__(679);
 const {
-  CacheFirst
+  CacheFirst,
+  StaleWhileRevalidate
 } = __webpack_require__(162);
 const {
   registerRoute
@@ -5752,7 +5753,7 @@ const {
 const {
   precacheAndRoute
 } = __webpack_require__(796);
-precacheAndRoute([{'revision':'fcae34d3ec18bf3bdde53b558cdb70da','url':'index.html'},{'revision':'1f99466ee4a2863c34a586461b7cac63','url':'install.bundle.js'},{'revision':'11dde2fccf48cc03a7e1895cfe7432c4','url':'main.bundle.js'},{'revision':'505e488545a20f32b8259588bb4c39b4','url':'main.css'}]);
+precacheAndRoute([{'revision':'bbcfdd97f808b92ba1991329a72efd79','url':'index.html'},{'revision':'bbb42a749db879094fa408459f14cd73','url':'install.bundle.js'},{'revision':'5618415665116a9aac37601eb3354f9e','url':'main.bundle.js'},{'revision':'8a704cf2ea8bdda60777319208425e76','url':'main.css'}]);
 const pageCache = new CacheFirst({
   cacheName: 'page-cache',
   plugins: [new CacheableResponsePlugin({
@@ -5773,7 +5774,17 @@ registerRoute(_ref => {
 }, pageCache);
 
 // TODO: Implement asset caching
-registerRoute();
+registerRoute(_ref2 => {
+  let {
+    request
+  } = _ref2;
+  return ["style", "script", "worker"].includes(request.destination);
+}, new StaleWhileRevalidate({
+  cacheName: "asset-cache",
+  plugins: [new CacheableResponsePlugin({
+    statuses: [0, 200]
+  })]
+}));
 })();
 
 /******/ })()

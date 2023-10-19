@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = () => {
   return {
-    mode: 'development',
+    mode: 'production',
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js'
@@ -16,6 +16,7 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: "",
+      assetModuleFilename: 'images/[hash][ext][query]'
     },
     plugins: [
       new InjectManifest({
@@ -31,7 +32,7 @@ module.exports = () => {
         display: "standalone",
         icons: [
           {
-            src: path.resolve("src/images/logo.png"),
+            src: path.resolve("src/images/JateLogo.png"),
             sizes: [96, 128, 192, 256, 384, 500],
           }
         ]
@@ -53,7 +54,7 @@ module.exports = () => {
           use: [MiniCssExtractPlugin.loader, "css-loader"]
         },
         {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
           type: "asset/resource",
         },
         {

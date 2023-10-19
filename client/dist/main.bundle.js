@@ -285,7 +285,7 @@ replaceTraps((oldTraps) => ({
 
 ;// CONCATENATED MODULE: ./src/js/database.js
 
-const initdb = async () => openDB('jate', 1, {
+const initDb = async () => openDB('jate', 1, {
   upgrade(db) {
     if (db.objectStoreNames.contains('jate')) {
       console.log('jate database already exists');
@@ -300,11 +300,21 @@ const initdb = async () => openDB('jate', 1, {
 });
 
 // TODO: Add logic to a method that accepts some content and adds it to the database
-const putDb = async content => console.error('putDb not implemented');
+const putDb = async content => {
+  const db = await openDB("jate", 1);
+  const transaction = db.transaction("jate", "readwrite");
+  const store = transaction.store;
+  return await store.put(content);
+};
 
 // TODO: Add logic for a method that gets all the content from the database
-const getDb = async () => console.error('getDb not implemented');
-initdb();
+const getDb = async () => {
+  const db = await openDB("jate", 1);
+  const transaction = db.transaction("jate", "readonly");
+  const store = transaction.store;
+  return await store.getAll();
+};
+initDb();
 ;// CONCATENATED MODULE: ./src/js/header.js
 const header = `
 /*
